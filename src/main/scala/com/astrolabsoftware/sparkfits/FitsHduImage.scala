@@ -61,7 +61,13 @@ object FitsHduImage {
       *
       */
     override def getNRows(keyValues: Map[String, String]) : Long = {
-      axis.reduce(_ * _) / axis(0)
+
+      try {
+        axis.reduce(_ * _) / axis(0)
+      }
+      catch {
+        case e: ArrayIndexOutOfBoundsException => 0
+      }
     }
 
     /**
@@ -74,7 +80,13 @@ object FitsHduImage {
       *
       */
     override def getSizeRowBytes(keyValues: Map[String, String]) : Int = {
-      axis(0).toInt * elementSize
+      try {
+        axis(0).toInt * elementSize
+      }
+      catch {
+        case e: ArrayIndexOutOfBoundsException => 0
+      }
+
     }
 
     /**
